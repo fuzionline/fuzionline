@@ -1,0 +1,22 @@
+#!/usr/bin/perl -i
+use strict;
+use warnings;
+use Math::Round;
+
+my $consumedFilament=0;
+
+while (<>){
+   # a regular expression for the G0/G1 commmand (click it to see what it does)
+	 if(/^G[01](\h+X(-?\d*\.?\d+))?(\h+Y(-?\d*\.?\d+))?(\h+Z(-?\d*\.?\d+))?(\h+E(-?\d*\.?\d+))?(\h+F(\d*\.?\d+))?(\h*;\h*([\h\w_-]*)\h*)?/){ 
+     # the match variables, just readable
+     my $X=$2, my $Y=$4, my $Z=$6, my $E=$8, my $F=$10, my $verbose=$12;
+     if($E){
+       # tracking how much filament we're using
+       $consumedFilament=$E;
+     }if($Z){
+       # print the consumed filament to the LCD e tambem ele poe o valor antes de cada Z
+       print "\nU ".round($consumedFilament)."\n";
+     }	
+  }
+  print;
+ }
